@@ -5,6 +5,7 @@ const questions = [
         options: ["Paris", "London", "Berlin", "Madrid"],
         answer: "Paris"
     },
+
     {
         question: "What is the largest planet in the solar system?",
         options: ["Earth", "Jupiter", "Mars", "Venus"],
@@ -41,7 +42,7 @@ displayQuestionNumber();
 function displayQuestion() {
     const current = questions[currentQuestion];
     questionElement.textContent = current.question;
-    
+
     optionsElement.innerHTML = '';
     current.options.forEach((option, index) => {
         const button = document.createElement('button');
