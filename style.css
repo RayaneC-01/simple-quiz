@@ -47,3 +47,11 @@ button:hover {
   font-weight: bold;
   text-align: right;
 }
+
+/* Style pour les erreurs */
+.error {
+  background-color: #ffe6e6; /* Couleur de fond */
+  border: 1px solid #ff9999; /* Bordure */
+  padding: 10px; /* Espacement intérieur */
+  margin-bottom: 10px; /* Marge en bas */
+}
