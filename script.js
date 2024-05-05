@@ -89,6 +89,8 @@ function showResult() {
     document.getElementById('prevBtn').style.display = 'none';
     document.getElementById('nextBtn').style.display = 'none';
     document.getElementById('submitBtn').style.display = 'none';
+    // Afficher les erreurs et les corrections
+    showErrors();
 }
 
 // Fonction pour mettre à jour l'affichage des boutons de navigation
@@ -96,4 +98,61 @@ function updateButtons() {
     document.getElementById('prevBtn').style.display = currentQuestion === 0 ? 'none' : 'block';
     document.getElementById('nextBtn').style.display = currentQuestion === questions.length - 1 ? 'none' : 'block';
     document.getElementById('submitBtn').style.display = currentQuestion === questions.length - 1 ? 'block' : 'none';
+}
+
+// Tableau pour stocker les réponses de l'utilisateur
+const userAnswers = [];
+// Fonction pour vérifier la réponse sélectionnée par le joueur
+function checkAnswer(selectedAnswer) {
+    // Stocker la réponse de l'utilisateur dans le tableau userAnswers
+    userAnswers[currentQuestion] = selectedAnswer;
+
+    // Vérifier si la réponse est correcte et mettre à jour le score
+    const current = questions[currentQuestion];
+    if (selectedAnswer === current.answer) {
+        score++;
+    }
+    // Passer à la question suivante
+    nextQuestion();
+}
+
+// Fonction pour afficher les erreurs et les corrections
+function showErrors() {
+    // Récupérer l'élément où afficher les erreurs
+    const errorsElement = document.getElementById('errors');
+    // Effacer le contenu précédent
+    errorsElement.innerHTML = '';
+
+    // Parcourir toutes les questions
+    questions.forEach((question, index) => {
+        // Récupérer la réponse de l'utilisateur pour cette question
+        const userAnswer = userAnswers[index];
+        // Récupérer la réponse correcte pour cette question
+        const correctAnswer = question.answer;
+
+        // Vérifier si la réponse de l'utilisateur est différente de la réponse correcte
+        if (userAnswer !== correctAnswer) {
+            // Créer un élément div pour afficher l'erreur
+            const errorDiv = document.createElement('div');
+            // Ajouter une classe pour le style CSS si nécessaire
+            errorDiv.classList.add('error');
+
+            // Numéro de la question
+            const questionNumber = index + 1;
+            // Texte de la question
+            const questionText = question.question;
+            // Texte de la réponse de l'utilisateur
+            const userAnswerText = userAnswer ? `Votre réponse :<strong> ${userAnswer}</strong>` : 'Aucune réponse';
+            // Texte de la réponse correcte
+            const correctAnswerText = `Réponse correcte : ${correctAnswer}`;
+
+            // Ajouter les informations de l'erreur à l'élément div
+            errorDiv.innerHTML = `<p>Question ${questionNumber}: ${questionText}</p>`;
+            errorDiv.innerHTML += `<p>${userAnswerText}</p>`;
+            errorDiv.innerHTML += `<p>${correctAnswerText}</p>`;
+
+            // Ajouter l'élément div à l'élément où afficher les erreurs
+            errorsElement.appendChild(errorDiv);
+        }
+    });
 }
